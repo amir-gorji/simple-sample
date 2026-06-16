@@ -1,5 +1,5 @@
 import http from "node:http";
-import app from "./mcp.js";
+import app from "./index.js";
 
 const PORT = Number(process.env.PORT) || 3000;
 
