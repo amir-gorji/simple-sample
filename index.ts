@@ -18,6 +18,24 @@ if (!ATXP_CONNECTION) {
   );
 }
 
+// Compatibility: @atxp/client <= 0.11.12 constructs the protected resource
+// metadata URL as <resource>/.well-known/oauth-protected-resource, while
+// @atxp/server (correctly per RFC 9728) serves it at
+// /.well-known/oauth-protected-resource/<resource-path>. Serve the same
+// metadata at the non-standard path so those clients can discover OAuth.
+app.get("/mcp/.well-known/oauth-protected-resource", (req, res) => {
+  const protocol =
+    req.headers["x-forwarded-proto"] === "https" ? "https" : req.protocol;
+  const resource = `${protocol}://${req.get("host")}/mcp`;
+  res.json({
+    resource,
+    resource_name: "ATXP Vercel MCP Demo",
+    authorization_servers: ["https://auth.atxp.ai"],
+    bearer_methods_supported: ["header"],
+    scopes_supported: ["read", "write"],
+  });
+});
+
 // Add ATXP payment middleware. It handles OAuth/payment callbacks and sets up
 // the request context that requirePayment uses.
 app.use(
