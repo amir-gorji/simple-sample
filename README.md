@@ -52,7 +52,7 @@ Use the deployed URL as a **Streamable HTTP** MCP server endpoint. The first tim
 
 ## Project structure
 
-- `api/index.ts` — the Vercel serverless function / Express MCP server.
-- `api/dev.ts` — local development HTTP server.
-- `vercel.json` — routes all traffic to `api/index.ts`.
+- `index.ts` — the Vercel serverless function / Express MCP server.
+- `dev.ts` — local development HTTP server.
+- `vercel.json` — routes all traffic to `index.ts`.
 - `.env.example` — example environment variables.
